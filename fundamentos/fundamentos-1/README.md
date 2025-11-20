@@ -24,7 +24,7 @@ func main() {
 ```go
 func test() {} //privada
 
-func Test() {} //publixa, pode ser acessada em outros pacotes e modulos
+func Test() {} //publica, pode ser acessada em outros pacotes e modulos
 ```
 ---
 

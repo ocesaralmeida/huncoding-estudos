@@ -76,70 +76,145 @@ func main() {
 ---
 
 ## funções com retorno nomeado e retorno múltiplo
-`Array` tem tamanho fixo
+Retorno múltiplo:
 
 ```go
+package main
+
+import "fmt"
+
 func main() {
-    var testArray [4]string = [4]string{"teste1", "teste2", "teste3", "teste4"} 
+
+	value, err := test()
+
+	if err != nil {
+		fmt.Println("ERRO")
+	} else {
+		fmt.Print("TEST", value)
+	}
+
 }
 
-```
-
-`Slice` tem tamanho variável, pode aumentar de acordo com a necesidade
-
-```go
-func main() {
-    var testSlice []string = []string{"teste", "teste2", "teste3", "teste4"}
+func test() (string, error) {
+	return "", nil
 }
 ```
 
-Comparativo dos dois:
+Retorno nomeado:
 
 ```go
+package main
+
+import "fmt"
+
 func main() {
-	var testArray [4]string = [4]string{"teste", "teste", "teste", "teste"}
-	fmt.Println("testArray: ", testArray)
-	fmt.Println(cap(testArray))
-	fmt.Println(len(testArray))
 
-	//testArray = append(testArray, "teste") // não deixa essa atribição acontecer, pois array tem tamanho definido
+	value, _ := test()
 
-	var testSlice []string = []string{"teste", "teste", "teste", "teste"}
-	fmt.Println("testSlice: ", testSlice)
-	fmt.Println(cap(testSlice))
-	fmt.Println(len(testSlice))
+	fmt.Print(value)
 
-	testSlice = append(testSlice, "teste") //deixa a tribuição acontecer, pois slice não tem tamanho definido, aumenta a capacidade de acordo com a necessidade
-	fmt.Println(cap(testSlice))
-	fmt.Println(len(testSlice))
+}
+
+func test() (retornoString string, retornoErro error) {
+	retornoString = "test"
+	retornoErro = nil
+
+	return
+}
+```
+
+---
+
+## passando funções por parameetro e recebendo funções como retorno
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+
+	funcaoTest := func(test string, testInt int) {
+
+		fmt.Println(test, testInt)
+	}
+
+	test(funcaoTest)
+}
+
+func test(value func(string, int)) {
+
+	value("otavio", 20)
+}
+```
+--- 
+
+## recebendo uma função como parâmetro
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+
+	funcao := test()
+
+	funcao("otavio", 20)
+}
+
+func test() func(string, int) {
+
+	funcaoTest := func(valorString string, valorInt int) {
+		fmt.Println(valorString, valorInt)
+	}
+
+	return funcaoTest
+}
+```
+
+---
+
+## função anônima
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+
+	test()
+}
+
+func test() {
+
+	func(valorString string, valorInt int) {
+		fmt.Println(valorString, valorInt)
+	}("otavio", 20)
 
 }
 ```
 
 ---
 
-## structs
-
-Semelhante a classe em outras linguagens, são estruturas de dados para agrupar regras de negócios
+## recebendo N parâmetros em uma função
 
 ```go
+package main
+
+import "fmt"
+
 func main() {
 
-	var user user = user{
-		name: "Cesar",
-		age:  32,
-	}
-
-	fmt.Println(user)
-	fmt.Println(user.name)
-	fmt.Println(user.age)
-
+	test()
 }
 
-type user struct {
-	name string
-	age  int
-}
+func test() {
 
+	func(valorString string, valorInt int) {
+		fmt.Println(valorString, valorInt)
+	}("otavio", 20)
+
+}
 ```
---- 

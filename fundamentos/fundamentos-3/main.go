@@ -4,9 +4,20 @@ import "fmt"
 
 func main() {
 
-	var test []string = []string{"test0", "test1", "test2"}
+	testParametro2 := func() {
+		fmt.Println("test2")
+	}
 
-	for i, value := range test {
-		fmt.Println(i, value)
+	testParametro := func() {
+		fmt.Println("test")
+	}
+
+	test(testParametro, testParametro2)
+}
+
+func test(valoresString ...func()) {
+
+	for _, x := range valoresString {
+		x()
 	}
 }

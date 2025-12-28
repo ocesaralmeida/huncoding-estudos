@@ -1,4 +1,4 @@
-# Processos
+# Concorrência e Goroutines
 
 ## O que é um processo?
 
@@ -31,6 +31,41 @@
 - isso é interessante pois em determinados momentos, eu posso querer acessar o valore real da variável, em outros, posso querer apenas a "cópia" desse valor. Ou seja, posso modificar esse valor sem afetar a referência
 
 ### C10K Problem
+- O scheduler do sistema aloca um espaço de tempo para a execução de cada processo
+- Esse tempo definido é divivido igualmente entre cada thread executada dentro desse processo
+Quanto mais thread, menos tempo cada uma vai ter para executar e assim, possivelmente uma troca de contexto do sistema vai demorar mais para acontecer do que propriamente o tempo de cada thread vai ter para executar.
+![alt text](image-4.png)
+- Se o tempo mínimo de execução de cada thread for de 2ms, o que teríamos?
+- Você precisa limitar a duração da fração de tempo. No último cenário, se o intervalo de tempo mínimo for 2ms e houver 1000 threads, o ciclo do planejador(scheduler) precisa ser aumentado para 2s. Se houver 10000 threads, o ciclo do planejador é de 20s.
+![alt text](image-5.png)
+
+### Stack size fixa
+- Threads são alocadas com um tamanho fixo a stack size definida na máquina em questão(8MB na minha máquina)
+- Se a máquina tem 8GB de memória, pode-se criar no máximo 1000 theads (8GB/1000 == 8000, que é que é o valor da stack size da minha máquina)
+
+### Resumindo:
+
+#### Processo:
+- Instancia de um programa em execução
+- Um processo fornece ambiente para um programa executat
+
+#### Thread:
+- É a menor unidade de execução que a CPU aceita
+- Um processo tem no mínimo uma thread - a thread principal
+- Um processo pode ter várias thread
+- Threads compartilham o mesmo espaço de endereçamento de memória
+
+#### Limitações das Threads:
+- `Stack Size Fixa:` Limita o número d thread que nós podemos criar à quantia de memória disponível na máquina
+- `C10K:` Conforme aumentamos o número de threads, o ciclo do scheduler do sistema irá também aumentar e assim, se tornar menos responsivo e mais .
+
+## Goroutines
+
+- Uma goroutine é um encademanento leve gerenciado pelo runtime do Go.
+- para iniciar um novo goroutine execuntando, adicione a palavra-chave `go` abtes da chamada da função `go add(a, b)`
+
+
+
 ```go
 package main
 

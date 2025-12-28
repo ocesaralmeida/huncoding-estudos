@@ -64,8 +64,6 @@ Quanto mais thread, menos tempo cada uma vai ter para executar e assim, possivel
 - Uma goroutine é um encademanento leve gerenciado pelo runtime do Go.
 - para iniciar um novo goroutine execuntando, adicione a palavra-chave `go` abtes da chamada da função `go add(a, b)`
 
-
-
 ```go
 package main
 

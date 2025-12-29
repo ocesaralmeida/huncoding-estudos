@@ -64,72 +64,31 @@ Quanto mais thread, menos tempo cada uma vai ter para executar e assim, possivel
 - Uma goroutine é um encademanento leve gerenciado pelo runtime do Go.
 - para iniciar um novo goroutine execuntando, adicione a palavra-chave `go` abtes da chamada da função `go add(a, b)`
 
-```go
-package main
 
-import "fmt"
+### goroutine != thread
+- uma thread é a menor execução que a CPU aceita a nível de sistema operacional
+- uma goroutine é menor que uma thread, ela executa dentro de uma thread
+- quando há a inicializaçõa de um sistema em go, é iniciada uma goroutine principal. Essa goroutine principal é criada dentro de uma thread principal
+- são criadas novas goroutines e novas theads conforme a necessidade
 
-// trabalhando com ponteiros
-func main() {
-	var y int = 10
-	var x *int = &y
+### E se houverem milhares de goroutines?
+- todas as goroutines vão rodar na mesma thread, porém se alguma dessas goroutines se tornar bloqueantes, ŕ criada uma nova thread para processar as outras goroutines enquanto a goroutine bloqueada não foi processada
+- Se tem 1000 goroutines bloqueando, irão existir 1000 threads bloqueadas e 1 thread rodando
 
-	fmt.Println("endereço de y, armazenado em x: ", x) //0xc00000a0f8
-	fmt.Println("valor de y, olhando para x: ", *x)    // 10
-	fmt.Println("endereço de x: ", &x)                 //0xc000060060
+![alt text](image-6.png)
 
-	y = 15
+### Quais os outros estados de uma goroutine?
+- Waiting/Blocked: Goroutine está parado e esperando por algo para continuar. Isso pode ocorrer por m otivos como aguardar o sistema operacional ou chamadas de sincronização(operações atômicas ou mutex).
+- Executable/Runnnable: Goroutine precia de um tempo em uma Thread para poder executar as instruções atribuídas.
+- Running: Está executando suas instruções.
 
-	fmt.Println("novo valor de y, olhando para y: ", y)
-	fmt.Println("novo valor de y, olhando para x: ", *x)
-	fmt.Println("endereço de y, armazenado em x: ", x) //0xc00000a0f8
-	fmt.Println("endereço de x: ", &x)                 //0xc000060060
-}
-```
+![alt text](image-7.png)
 
-```go
-package main
+### Goroutines usam paralelismo ou concorrência?
+- Paralelismo é quando duas ou mais thread exevutam o código simultanemamento através de diferentes cores do processador.
+- Concorrência é quando o mesmo core do processador executa o código concorrentemente entre threads.
 
-import "fmt"
-
-// trabalhando sem ponteiros
-func main() {
-	var y int = 10
-	var x int = y
-
-	fmt.Println("valor de y: ", y) // 10
-	fmt.Println("valor de x: ", x) // 10
-
-	y = 15
-
-	fmt.Println("novo valor de y: ", y) // 15
-	fmt.Println("valor de x: ", x)      // 10
-}
-```
-
-```go
-package main
-
-import "fmt"
-
-// exemplo com funções
-func main() {
-
-	var testValue string = "César"
-	copyStringValue(testValue)
-	fmt.Println("Fora da função copyStringValue: ", testValue)
-
-	originalStringValue(&testValue)
-	fmt.Println("Fora da função originalStringValue: ", testValue)
-}
-
-func copyStringValue(stringValue string) {
-	stringValue = "TEST"
-	fmt.Println("Dentro da função copyStringValue: ", stringValue)
-}
-
-func originalStringValue(stringValue *string) {
-	*stringValue = "TEST"
-	fmt.Println("Dentro da função originalStringValue: ", *stringValue)
-}
-```
+- Ou seja, goroutines inicialmente são CONCORRENTES, pois:
+- quando o código principal é instanciado, é instanciada também uma nova goroutine
+- essa goroutine vai ficar respinsável por esse código e vai instanciando novas threads(no mesmo core do processador)
+- É possível também configurar o tempo de execução para usar mais de um processador lógico, resultando em goroutines executando em diferentes threads do sistema operacional.

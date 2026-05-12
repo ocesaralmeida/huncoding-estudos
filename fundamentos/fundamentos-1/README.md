@@ -4,17 +4,17 @@
 
 ```go
 func main() {
-	testString := "25.33"  //string
-	fmt.Printf("%T", testString)
+	testString := "25.33"  //string - atribuição com := identifica o tipo da variável
+	fmt.Printf("%T", testString) // %T == typeof
 
-	testInt := 30 //int
-	fmt.Printf("%T", testInt)
+	testInt := 30 //int - atribuição com := identifica o tipo da variável
+	fmt.Printf("%T", testInt) // %T == typeof
 
-	testFloat := 23.11 //float64
-	fmt.Printf("%T", testFloat)
+	testFloat := 23.11 //float64 - atribuição com := identifica o tipo da variável
+	fmt.Printf("%T", testFloat) // %T == typeof
 
-	testMap := map[string]string{"teste": "pos1"}//map[string]string
-	fmt.Printf("%T", testMap)
+	testMap := map[string]string{"teste": "pos1"}//map[string]string - atribuição com := identifica o tipo da variável
+	fmt.Printf("%T", testMap) // %T == typeof
 }
 ```
 ---
@@ -22,7 +22,7 @@ func main() {
 ## variáveis públicas e privadas
 
 ```go
-func test() {} //privada
+func test() {} //privada, não pode ser acessada em outros pacotes e módulos
 
 func Test() {} //publica, pode ser acessada em outros pacotes e modulos
 ```
@@ -79,19 +79,19 @@ Comparativo dos dois:
 func main() {
 	var testArray [4]string = [4]string{"teste", "teste", "teste", "teste"}
 	fmt.Println("testArray: ", testArray)
-	fmt.Println(cap(testArray))
-	fmt.Println(len(testArray))
+	fmt.Println(cap(testArray)) //4
+	fmt.Println(len(testArray)) //4
 
 	//testArray = append(testArray, "teste") // não deixa essa atribição acontecer, pois array tem tamanho definido
 
 	var testSlice []string = []string{"teste", "teste", "teste", "teste"}
 	fmt.Println("testSlice: ", testSlice)
-	fmt.Println(cap(testSlice))
-	fmt.Println(len(testSlice))
+	fmt.Println(cap(testSlice)) //4
+	fmt.Println(len(testSlice)) //4
 
 	testSlice = append(testSlice, "teste") //deixa a tribuição acontecer, pois slice não tem tamanho definido, aumenta a capacidade de acordo com a necessidade
-	fmt.Println(cap(testSlice))
-	fmt.Println(len(testSlice))
+	fmt.Println(cap(testSlice)) //8 -> dobrou a capacidade
+	fmt.Println(len(testSlice)) //5 -> aumentou o tamanho
 
 }
 ```

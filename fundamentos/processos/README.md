@@ -8,7 +8,7 @@
 ![alt text](image.png)
 
 ## O que são as threads
-- `Threads` são as menores unidade de execução que a CPU aceita(muito semelhante a implementação das goroutines)
+- **Threads** são as menores unidade de execução que a CPU aceita(muito semelhante a implementação das goroutines)
 - Cada processo tem no mínimo uma thread(que é a thread principal)
 - Um processo pode ter várias threads
 - Threads compartilham o mesmo espaço de endereçamento
@@ -17,9 +17,17 @@
 ![alt text](image-1.png)
 
 ## Estados de thread
+- **Runnable**: Estado incial, pornto para executar
+- **Running**: Executando dentro de um espaço de tempo
+  - caso o tempo definido expire, a thread é colocado novamente na fila(Runnable)
+- **Waiting**: Bloqueada por operações I/O ou rede, quando termina esse bloqueio, a thread volta para Runnnable
+
 ![alt text](image-2.png)
 
 ## É possível dividir a aplicação em processos e thread para chegar a concorréncia, porém há limitações!!!
+- Sim! Porém há limitações
+
+## Limitações:
 
 ### Context Switching
 - Para o sistema troca entre executar uma thread e executar a outra, há uma troca de contexto, que leva um tempo
@@ -60,9 +68,8 @@ Quanto mais thread, menos tempo cada uma vai ter para executar e assim, possivel
 - `C10K:` Conforme aumentamos o número de threads, o ciclo do scheduler do sistema irá também aumentar e assim, se tornar menos responsivo e mais .
 
 ## Goroutines
-
-- Uma goroutine é um encademanento leve gerenciado pelo runtime do Go.
-- para iniciar um novo goroutine execuntando, adicione a palavra-chave `go` abtes da chamada da função `go add(a, b)`
+- Uma goroutine é um **encademanento leve**(logicamente um encadeamento de execução) gerenciado pelo runtime do Go.
+- Para iniciar um novo goroutine execuntando, adicione a palavra-chave `go` abtes da chamada da função `go add(a, b)`
 
 
 ### goroutine != thread
@@ -92,3 +99,4 @@ Quanto mais thread, menos tempo cada uma vai ter para executar e assim, possivel
 - quando o código principal é instanciado, é instanciada também uma nova goroutine
 - essa goroutine vai ficar respinsável por esse código e vai instanciando novas threads(no mesmo core do processador)
 - É possível também configurar o tempo de execução para usar mais de um processador lógico, resultando em goroutines executando em diferentes threads do sistema operacional.
+![alt text](image-8.png)

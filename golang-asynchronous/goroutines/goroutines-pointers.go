@@ -8,19 +8,16 @@ import (
 func funPointer(value *string) {
 	for {
 		fmt.Println(*value)
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(1 * time.Millisecond)
 	}
 }
 
 func main() {
-	var test string = "test"
-	var pointTest *string = &test
 
-	go funPointer(pointTest)
+	var test string = "test"
+	var pointerTest *string = &test
+
+	go funPointer(pointerTest)
 
 	time.Sleep(time.Second)
-
-	*pointTest = "HunCoding"
-
-	time.Sleep(3 * time.Second)
 }

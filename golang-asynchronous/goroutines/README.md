@@ -90,7 +90,14 @@ Direct call
 Done...
 ```
 
-- isso acontece pq o processo acabba antes da goroutine conseguir printar o valor
+##### por que isso ocorre? por que usando go fun("goroutine - 1") não gerou um output diferente?
+- uma goroutine executa concorrentemente a outra, uma goroutine não conhece a outra(pelo menos nesse cenário)
+- uma goroutine não vai esperar a outra executar, nem mesmo se for a gorotuine main
+- se você executa uma goroutine a partir da goroutine main, ela só vai esperar essa goroutine terminar se fizer algo para isso acontecer(watiGroup, channel)
+- dentro da função `fun()` ele demora 1milisegundo paraexecutar toda vez que ele printa
+- a função `main()` chama a função `fun()`, printa a mensagem, e quando chamar a goroutine, não tem mais nada para fazer
+- a main finaliza a execução antes da goroutine executar, a `main()` não espera a `goroutine`
+- isso acontece pois o processo acaba antes da goroutine conseguir printar o valor
 - colocando um `time.sleep()`, podemos fazer o programa "esperar" a execução da goroutine:
 
 ```go
@@ -138,7 +145,9 @@ goroutine - 1
 Done...
 ```
 
-- ao chamar a função fun em outra goroutine, o output vai sair "bagunçado", pois uma goroutine não tem conhecimento de outra goroutine, veja a implementação abaixo:
+- ao chamar a função fun em outra goroutine, o output vai sair "bagunçado", pois uma goroutine não tem conhecimento de outra goroutine.
+- lembrando que uma goroutine executa independente de outras goroutines
+- veja a implementação abaixo:
 
 ```go
 package main
@@ -245,6 +254,7 @@ func main() {
 ```
 
 ```
+execução 1:
 Direct call
 Direct call
 Direct call
@@ -258,7 +268,24 @@ goroutine - 2
 goroutine - 3
 goroutine - 1
 Done...
+-------------
+execução 2:
+Direct call
+Direct call
+Direct call
+goroutine - 3
+goroutine - 2
+goroutine - 3
+goroutine - 1
+goroutine - 3
+goroutine - 1
+goroutine - 2
+goroutine - 2
+goroutine - 1
+Done...
 ```
+
+#### Como faríamos caso seja necessário que todas as goroutines printassem o mesmo valor, e se esse valor for alterado, as goroutines devem printar também  o valor alterado?
 
 ## Usando ponteiros com goroutines
 - podemos mudar o valor de uma váriável durante a execução de uma goroutine com pointeiros, veja o exemplo abaixo:

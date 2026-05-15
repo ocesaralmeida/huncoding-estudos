@@ -8,7 +8,7 @@ import (
 func fun(value string) {
 	for i := 0; i < 3; i++ {
 		fmt.Println(value)
-		time.Sleep(1 * time.Second)
+		time.Sleep(1 * time.Microsecond)
 	}
 }
 
@@ -29,7 +29,7 @@ func test() {
 	}()
 
 	// TODO: wait for goroutine to end
-	time.Sleep(5 * time.Second)
+	time.Sleep(5 * time.Millisecond)
 
 	fmt.Println("Done...")
 }

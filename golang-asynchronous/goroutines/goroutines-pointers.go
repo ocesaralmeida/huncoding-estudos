@@ -20,4 +20,8 @@ func main() {
 	go funPointer(pointerTest)
 
 	time.Sleep(time.Second)
+
+	*pointerTest = "test2"
+
+	time.Sleep(3 * time.Second)
 }

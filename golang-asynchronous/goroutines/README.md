@@ -287,6 +287,149 @@ Done...
 
 #### Como faríamos caso seja necessário que todas as goroutines printassem o mesmo valor, e se esse valor for alterado, as goroutines devem printar também  o valor alterado?
 
+- No exemplo abaixo, recebemos um pointeiro de string como parâmetro, e chamamos a função como uma goroutine passando o endereço de memória onde existe a string "test":
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func funPointer(value *string) {
+	for {
+		fmt.Println(*value)
+		time.Sleep(1 * time.Millisecond)
+	}
+}
+
+func main() {
+
+	var test string = "test"
+	var pointerTest *string = &test
+
+	go funPointer(pointerTest)
+
+	time.Sleep(time.Second)
+}
+```
+
+- esse exemplo produziu esse output:
+
+```
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+```
+
+- Agora, no meio dos prints, queremos que printe "test2". Isso pode ser feito mudando a string para onde o pointeiro aponta, veja o exemplo abaixo:
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func funPointer(value *string) {
+	for {
+		fmt.Println(*value)
+		time.Sleep(1 * time.Millisecond)
+	}
+}
+
+func main() {
+
+	var test string = "test"
+	var pointerTest *string = &test
+
+	go funPointer(pointerTest)
+
+	time.Sleep(time.Second)
+
+	*pointerTest = "test2"
+
+	time.Sleep(3 * time.Second)
+}
+```
+
+- produzindo o seguinte output:
+
+```
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+test2
+```
+
+- isso funciona pois ele começou a printar "test" olhando o endereço de memória, e depois o valor do endereço de memória foi alterado
+
+
+
 ## Usando ponteiros com goroutines
 - podemos mudar o valor de uma váriável durante a execução de uma goroutine com pointeiros, veja o exemplo abaixo:
 
@@ -304,6 +447,8 @@ func funPointer(value *string) {
 		time.Sleep(500 * time.Millisecond)
 	}
 }
+
+
 
 func main() {
 	var test string = "test"
